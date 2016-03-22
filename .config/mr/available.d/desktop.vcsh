@@ -1,0 +1,2 @@
+[$HOME/.config/vcsh/repo.d/desktop.git]
+checkout = vcsh clone git@github.com:vkevroletin/dotfiles.desktop.git desktop

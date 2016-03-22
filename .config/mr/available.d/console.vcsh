@@ -1,0 +1,2 @@
+[$HOME/.config/vcsh/repo.d/console.git]
+checkout = vcsh clone git@github.com:vkevroletin/dotfiles.console.git console
