@@ -1,0 +1,10 @@
+[$HOME/.config/vcsh/repo.d/console.git]
+checkout = vcsh clone git@github.com:vkevroletin/dotfiles.console.git console
+
+[$HOME/.zplug]
+checkout = git clone https://github.com/b4b4r07/zplug ~/.zplug
+push = :
+
+[$HOME/.tmux/plugins/tpm]
+checkout = git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+push = :
