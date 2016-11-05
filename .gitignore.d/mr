@@ -1,4 +1,6 @@
 *
+!/bootstrap.d
+!/bootstrap.d/mr.sh
 !/.config
 !/.config/mr
 !/.config/mr/available.d
