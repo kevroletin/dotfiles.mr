@@ -2,7 +2,7 @@
 checkout = vcsh clone git@github.com:vkevroletin/dotfiles.console.git console
 
 [$HOME/.zplug]
-checkout = git clone https://github.com/b4b4r07/zplug ~/.zplug
+checkout = git clone https://github.com/b4b4r07/zplug ~/.zplug --branch 2.3.2
 push = :
 
 [$HOME/.tmux/plugins/tpm]
