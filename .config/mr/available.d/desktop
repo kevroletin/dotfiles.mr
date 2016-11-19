@@ -1,5 +1,5 @@
 [$HOME/.config/vcsh/repo.d/desktop.git]
-checkout = vcsh clone https://github.com/vkevroletin/dotfiles.desktop.git desktop
+checkout = vcsh clone https://github.com/kevroletin/dotfiles.desktop.git desktop
 
 [$HOME/.base16-xresources]
 checkout = git clone https://github.com/chriskempson/base16-xresources.git .base16-xresources

@@ -1,5 +1,5 @@
 [$HOME/.config/vcsh/repo.d/console.git]
-checkout = vcsh clone https://github.com/vkevroletin/dotfiles.console.git console
+checkout = vcsh clone https://github.com/kevroletin/dotfiles.console.git console
 
 [$HOME/.zplug]
 checkout = git clone https://github.com/b4b4r07/zplug ~/.zplug --branch 2.3.2
