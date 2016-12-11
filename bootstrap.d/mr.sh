@@ -2,7 +2,7 @@
 
 pushd $HOME; sudo apt-get update
 
-PACKAGES="myrepos vcsh"
+PACKAGES="git myrepos vcsh"
 echo "=== Installing $PACKAGES ==="
 sudo apt-get install $PACKAGES
 
