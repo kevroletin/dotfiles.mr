@@ -15,4 +15,5 @@ Step 2: download and run script
 
 Or 
 
-     curl https://raw.githubusercontent.com/kevroletin/dotfiles.mr/master/.dotfiles_bootstrap.d/install | sh -
+     curl https://raw.githubusercontent.com/kevroletin/dotfiles.mr/master/.dotfiles_bootstrap.d/install > /tmp/install
+     sh /tmp/install
