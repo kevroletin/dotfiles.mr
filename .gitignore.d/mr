@@ -3,13 +3,10 @@
 !/.config/mr
 !/.config/mr/available.d
 !/.config/mr/available.d/.gitkeep
-!/.config/mr/available.d/x.console
-!/.config/mr/available.d/x.cygwin
-!/.config/mr/available.d/x.desktop
-!/.config/mr/available.d/x.emacs
-!/.config/mr/available.d/x.mr
 !/.config/mr/config.d
 !/.config/mr/config.d/.gitkeep
+!/.dotfiles_bootstrap.d
+!/.dotfiles_bootstrap.d/install
 !/.gitignore.d
 !/.gitignore.d/mr
 !/.mrconfig

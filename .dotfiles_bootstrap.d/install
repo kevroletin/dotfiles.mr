@@ -1,0 +1,89 @@
+#
+# Warning: this script will override your dotfiles! To do thit is
+# installs all dotfiles into empty directory and then copies result
+# into home directory.
+#
+
+download_binaries() {
+    mkdir $HOME/bin || true
+    curl https://raw.githubusercontent.com/joeyh/myrepos/master/mr > $HOME/bin/mr
+    curl https://raw.githubusercontent.com/RichiH/vcsh/master/vcsh > $HOME/bin/vcsh
+    chmod +x $HOME/bin/mr
+    chmod +x $HOME/bin/vcsh
+    export PATH=$HOME/bin:$PATH
+}
+
+configure_tools() {
+    sudo apt-get update
+    sudo apt-get install git myrepos vcsh
+    git config --global user.name "Vasiliy Kevroletin"
+    git config --global user.email kevroletin@gmail.com
+    git config --global push.default simple
+}
+
+run_post_install_scripts() {
+    WORKSPACE="/tmp/dotfiles-bootstrap.ba1f2511fc30423bdbb183fe33f3dd0f"
+    rm -rf $WORKSPACE
+    mkdir $WORKSPACE
+    cd $HOME
+    for i in $FAKE_HOME/.dotfiles_bootstrap.d/*.sh; do
+        filename=$(basename "$i")
+        filename="${filename%.*}"
+        export RESULT_PACKAGES_FILE=$WORKSPACE/$filename.txt
+        export RESULT_SCRIPT_FILE=$WORKSPACE/$filename.sh
+        sh $i
+    done
+
+    PACKAGES=$(cat $WORKSPACE/*.txt | tr '\n' ' ')
+    echo "=== Installing $PACKAGES ==="
+    sudo apt-get install $PACKAGES
+
+    echo "=== Running post install scripts ==="
+    sh $WORKSPACE/*.sh
+}
+
+setup_fake_home() {
+    OLD_HOME=$HOME
+    FAKE_HOME="/tmp/fake-home.ba1f2511fc30423bdbb183fe33f3dd0f"
+    rm -rf $FAKE_HOME
+    mkdir $FAKE_HOME
+    export HOME=$FAKE_HOME
+}
+
+restore_home() {
+    HOME=$OLD_HOME
+}
+
+install_mr() {
+    vcsh clone git@github.com:kevroletin/dotfiles.mr.git || vcsh clone https://github.com/kevroletin/dotfiles.mr
+}
+
+ask_and_install_dotfile_repos() {
+    COMPONENTS=""
+    for component in dotfiles.console dotfiles.cygwin dotfiles.desktop .spacemacs.d; do
+        while true; do
+            read -p "Do you wish to install $component? " yn
+            case $yn in
+                [Yy]* ) COMPONENTS="$COMPONENTS $component"; break;;
+                [Nn]* ) break;;
+                * ) echo "Please answer yes or no.";;
+            esac
+        done
+    done
+    for i in $COMPONENTS; do
+        DEST=$HOME/.config/vcsh/repo.d/$i.git
+        vcsh clone git@github.com:kevroletin/$i.git $DEST || vcsh clone https://github.com/kevroletin/$i $DEST
+    done
+}
+
+download_binaries
+configure_tools
+setup_fake_home
+    cd $HOME
+    install_mr
+    ask_and_install_dotfile_repos
+    mr update
+restore_home
+cd $HOME
+rsync -a --delete $FAKE_HOME $HOME
+run_post_install_scripts
