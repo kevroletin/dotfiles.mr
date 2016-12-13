@@ -54,7 +54,7 @@ restore_home() {
 }
 
 install_mr() {
-    ssh -T git@github.com 2>&1 | grep -q success && vcsh clone git@github.com:kevroletin/dotfiles.mr.git || vcsh clone https://github.com/kevroletin/dotfiles.mr
+    ssh -T git@github.com 2>&1 | grep -q success && vcsh clone git@github.com:kevroletin/dotfiles.mr.git mr || vcsh clone https://github.com/kevroletin/dotfiles.mr mr
 }
 
 ask_and_install_dotfile_repos() {
@@ -76,7 +76,7 @@ ask_and_install_dotfile_repos() {
         long=${i%,*}
         short=${i#*,}
         DEST=$HOME/.config/vcsh/repo.d/$i.git
-        [ $SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$long.git $short || vcsh clone https://github.com/kevroletin/$long $short
+        [ $SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$long.git $short || vcsh clone https://github.com/kevroletin/$long.git $short
     done
 }
 
@@ -89,5 +89,5 @@ ask_and_install_dotfile_repos
 mr update
 restore_home
 cd $HOME
-rsync -a --delete $FAKE_HOME/* $HOME
+rsync -a $FAKE_HOME/ $HOME
 run_post_install_scripts
