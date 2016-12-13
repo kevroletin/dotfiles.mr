@@ -1,6 +1,5 @@
 #
-# Warning: this script will override your dotfiles! To do thit is
-# installs all dotfiles into empty directory and then copies result
+# Warning: this script will override your dotfiles! To do thit is # installs all dotfiles into empty directory and then copies result
 # into home directory.
 #
 
@@ -15,7 +14,7 @@ download_binaries() {
 
 configure_tools() {
     sudo apt-get update
-    sudo apt-get install git myrepos vcsh
+    sudo apt-get install curl git myrepos vcsh
     git config --global user.name "Vasiliy Kevroletin"
     git config --global user.email kevroletin@gmail.com
     git config --global push.default simple
@@ -55,7 +54,7 @@ restore_home() {
 }
 
 install_mr() {
-    vcsh clone git@github.com:kevroletin/dotfiles.mr.git || vcsh clone https://github.com/kevroletin/dotfiles.mr
+    ssh -T git@github.com 2>&1 | grep -q success && vcsh clone git@github.com:kevroletin/dotfiles.mr.git || vcsh clone https://github.com/kevroletin/dotfiles.mr
 }
 
 ask_and_install_dotfile_repos() {
@@ -70,14 +69,16 @@ ask_and_install_dotfile_repos() {
             esac
         done
     done
+    ssh -T git@github.com 2>&1 | grep -q success
+    SSH_CONFIGURED_RET=$?
     for i in $COMPONENTS; do
         DEST=$HOME/.config/vcsh/repo.d/$i.git
-        vcsh clone git@github.com:kevroletin/$i.git $DEST || vcsh clone https://github.com/kevroletin/$i $DEST
+        [ SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$i.git $DEST || vcsh clone https://github.com/kevroletin/$i $DEST
     done
 }
 
-download_binaries
 configure_tools
+download_binaries
 setup_fake_home
     cd $HOME
     install_mr

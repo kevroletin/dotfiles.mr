@@ -3,4 +3,16 @@ Installation
 
 Warning: this script will delete old files and directories from your home.
 
-     curl https://raw.githubusercontent.com/kevroletin/dotfiles.mr/master/.mrconfig | sh -
+Step 1: configure github access
+
+     scp ~/.ssh/* 192.168.1.104:~/.ssh/
+
+Step 2: download and run script
+
+     cd /tmp
+     wget https://raw.githubusercontent.com/kevroletin/dotfiles.mr/master/.dotfiles_bootstrap.d/install
+     sh install
+
+Or 
+
+     curl https://raw.githubusercontent.com/kevroletin/dotfiles.mr/master/.dotfiles_bootstrap.d/install | sh -
