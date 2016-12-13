@@ -76,7 +76,7 @@ ask_and_install_dotfile_repos() {
         long=${i%,*}
         short=${i#*,}
         DEST=$HOME/.config/vcsh/repo.d/$i.git
-        [ SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$long.git $short || vcsh clone https://github.com/kevroletin/$long $short
+        [ $SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$long.git $short || vcsh clone https://github.com/kevroletin/$long $short
     done
 }
 
