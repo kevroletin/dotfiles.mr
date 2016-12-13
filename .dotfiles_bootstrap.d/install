@@ -59,11 +59,12 @@ install_mr() {
 
 ask_and_install_dotfile_repos() {
     COMPONENTS=""
-    for component in dotfiles.console dotfiles.cygwin dotfiles.desktop .spacemacs.d; do
+    for i in dotfiles.console,console dotfiles.cygwin,cygwin dotfiles.desktop,desktop .spacemacs.d,emacs; do
+        short=${i#*,}
         while true; do
-            read -p "Do you wish to install $component? " yn
+            read -p "Do you wish to install $short? " yn
             case $yn in
-                [Yy]* ) COMPONENTS="$COMPONENTS $component"; break;;
+                [Yy]* ) COMPONENTS="$COMPONENTS $i"; break;;
                 [Nn]* ) break;;
                 * ) echo "Please answer yes or no.";;
             esac
@@ -72,19 +73,21 @@ ask_and_install_dotfile_repos() {
     ssh -T git@github.com 2>&1 | grep -q success
     SSH_CONFIGURED_RET=$?
     for i in $COMPONENTS; do
+        long=${i%,*}
+        short=${i#*,}
         DEST=$HOME/.config/vcsh/repo.d/$i.git
-        [ SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$i.git $DEST || vcsh clone https://github.com/kevroletin/$i $DEST
+        [ SSH_CONFIGURED_RET -eq 0 ] && vcsh clone git@github.com:kevroletin/$long.git $short || vcsh clone https://github.com/kevroletin/$long $short
     done
 }
 
 configure_tools
 download_binaries
 setup_fake_home
-    cd $HOME
-    install_mr
-    ask_and_install_dotfile_repos
-    mr update
+cd $HOME
+install_mr
+ask_and_install_dotfile_repos
+mr update
 restore_home
 cd $HOME
-rsync -a --delete $FAKE_HOME $HOME
+rsync -a --delete $FAKE_HOME/* $HOME
 run_post_install_scripts
