@@ -1,5 +1,0 @@
-[$HOME/.config/vcsh/repo.d/cygwin.git]
-checkout = vcsh clone git@github.com:kevroletin/dotfiles.cygwin.git cygwin
-
-
-
