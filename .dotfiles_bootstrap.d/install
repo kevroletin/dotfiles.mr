@@ -80,14 +80,20 @@ ask_and_install_dotfile_repos() {
     done
 }
 
+copy_files_to_home() {
+    # vcsh saves absolute paths
+    find $FAKE_HOME/.config/vcsh -name config -exec sed -i "s#$FAKE_HOME#$HOME#g" {} +
+    rsync -a $FAKE_HOME/ $HOME
+}
+
 configure_tools
 download_binaries
 setup_fake_home
-cd $HOME
-install_mr
-ask_and_install_dotfile_repos
-mr update
+    cd $HOME
+    install_mr
+    ask_and_install_dotfile_repos
+    mr update
 restore_home
 cd $HOME
-rsync -a $FAKE_HOME/ $HOME
+copy_files_to_home
 run_post_install_scripts
