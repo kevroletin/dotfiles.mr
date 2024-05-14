@@ -77,6 +77,9 @@ copy_files_to_home() {
     rsync -a $FAKE_HOME/ $HOME
 }
 
+echo "Checking if github is accessable via ssh"
+(ssh -T git@github.com 2>&1 | grep -q success) || (echo "Please configure ssh keys to access github"; exit 1)
+
 configure_tools
 setup_fake_home
     cd $HOME
